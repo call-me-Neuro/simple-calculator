@@ -2,27 +2,14 @@ let enter = '';
 let result;
 let result_bool = false;
 
-let d1 = document.querySelector('#button-1');
-let d2 = document.querySelector('#button-2');
-let d3 = document.querySelector('#button-3');
-let d4 = document.querySelector('#button-4');
-let d5 = document.querySelector('#button-5');
-let d6 = document.querySelector('#button-6');
-let d7 = document.querySelector('#button-7');
-let d8 = document.querySelector('#button-8');
-let d9 = document.querySelector('#button-9');
+let digits = document.getElementsByClassName('digits');
 let d0 = document.querySelector('.zero');
 
-let dp = document.querySelector('#button-p');
-let dm = document.querySelector('#button-m');
-let dd = document.querySelector('#button-d');
-let du = document.querySelector('#button-u');
-let dr = document.querySelector('#button-r');
-let dc = document.querySelector('#button-c');
+let signs = document.getElementsByClassName('signs');
 
 let text = document.getElementById('field-text');
 let preliminary = document.getElementById('preliminary');
-let last_preliminary
+let last_preliminary;
 let some_text = text.innerHTML;
 
 let foo = function(a, b) {
@@ -32,29 +19,31 @@ let foo = function(a, b) {
 	})
 } 
 
-let list = [d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,dp,dm,dd,du];
-let list2 = [0,1,2,3,4,5,6,7,8,9,'+', '-', '/', '*'];
+let buttons = [d0].concat([...digits]).concat([...signs]);
+buttons.pop();
+buttons.pop();
+let values = [0,1,2,3,4,5,6,7,8,9,'+', '-', '/', '*'];
 
 let counter = 0;
 
-for (let item of list) {
-	foo(item, list2[counter]);
+for (let item of buttons) {
+	foo(item, values[counter]);
 	counter++;
 }
 
-dc.addEventListener('click', function() {
+signs[5].addEventListener('click', function() {/* c */
 	if (!result_bool & enter.length > 1) {
 		enter = enter.substring(0,enter.length-1);
 		text.innerHTML = enter;
 	}
 	else {
 		enter = '';
-		text.innerHTML = '0';
+		text.innerHTML = enter;
 		result_bool = false
 	}
 })
 
-dr.addEventListener('click', function() {
+signs[4].addEventListener('click', function() {/* = */
 	try {
 		result = eval(enter) + '';
 		text.innerHTML = result;
@@ -66,7 +55,7 @@ dr.addEventListener('click', function() {
 	}
 })
 
-setInterval(() => {
+setInterval(() => { /* get input */
 	if (text.innerHTML != some_text) {
 		some_text = text.innerHTML;
 		enter = some_text;
@@ -74,7 +63,7 @@ setInterval(() => {
 }, 100);
 
 
-setInterval(() => {
+setInterval(() => { /* show preliminary */
 	try {
 		if (eval(enter) == undefined || eval(enter) == enter) {
 			preliminary.style.opacity = 0;
